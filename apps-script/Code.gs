@@ -1,78 +1,44 @@
 /**
- * Marlyn Ferreira Properties - Google Sheets lead receiver
+ * Toyota Legend Ermelo lead receiver
+ * Blue Lily Properties + Marlyn Ferreira Properties
+ * Lead contacts: Marko Ferreira + Marlyn Ferreira
  *
- * Paste this entire file into Extensions > Apps Script for the linked Google Sheet.
- * Deploy it as a Web App, then store the /exec URL in Netlify as:
- * GOOGLE_APPS_SCRIPT_URL
+ * IMPORTANT:
+ * - Do NOT run doPost() from the Apps Script editor. It needs form data.
+ * - To test the sheet connection, run testLeadSubmission() instead.
  */
 
 const SPREADSHEET_ID = '1-uRPB6uM9bHpIo69CMSMLxQVlsE2tVgodY5FFCOKnv0';
 const SHEET_NAME = 'Leads';
-
 const HEADERS = [
-  'Timestamp',
-  'Name',
-  'Surname',
-  'Number',
-  'Email',
-  'Own a Property',
-  'Want to Sell',
-  'Want to Buy',
-  'Need Insurance',
-  'Need a Will',
-  'Consent to Communication',
-  'Additional Info',
-  'Source'
+  'Timestamp', 'Name', 'Surname', 'Number', 'Email', 'Own a Property',
+  'Want to Sell', 'Want to Buy', 'Need Insurance', 'Need a Will',
+  'Consent to Communication', 'Additional Info', 'Source'
 ];
+const DEFAULT_SOURCE = 'Blooming Good Real Estate at the Toyota Legend Ermelo | Lead contacts: Marko Ferreira + Marlyn Ferreira | Marlyn Ferreira Properties + Blue Lily Properties';
 
 function doGet() {
   return jsonResponse({
     success: true,
-    message: 'Marlyn Ferreira Properties lead receiver is online.'
+    message: 'Toyota Legend Ermelo lead receiver is online.'
   });
 }
 
 function doPost(e) {
   try {
+    if (!e) {
+      throw new Error('No form data was received. Do not run doPost manually; run testLeadSubmission instead.');
+    }
+
     const data = getRequestData_(e);
 
-    // Honeypot: bots often populate hidden fields that real visitors never see.
+    // Quietly accept spam-bot submissions caught by the hidden honeypot field.
     if (String(data.website || '').trim()) {
       return jsonResponse({ success: true, message: 'Received.' });
     }
 
     const lead = validateAndClean_(data);
-    const lock = LockService.getScriptLock();
-    lock.waitLock(30000);
-
-    try {
-      const sheet = getOrCreateLeadSheet_();
-      const nextRow = sheet.getLastRow() + 1;
-
-      const row = [[
-        new Date(),
-        lead.name,
-        lead.surname,
-        lead.number,
-        lead.email,
-        lead.ownsProperty,
-        lead.wantsToSell,
-        lead.wantsToBuy,
-        lead.needsInsurance,
-        lead.needsWill,
-        lead.communicationConsent,
-        lead.additionalInfo,
-        lead.source
-      ]];
-
-      // Preserve user input as text so values starting with =, +, - or @
-      // are never treated as spreadsheet formulas.
-      sheet.getRange(nextRow, 2, 1, HEADERS.length - 1).setNumberFormat('@');
-      sheet.getRange(nextRow, 1, 1, HEADERS.length).setValues(row);
-      sheet.getRange(nextRow, 1).setNumberFormat('yyyy-mm-dd hh:mm:ss');
-    } finally {
-      lock.releaseLock();
-    }
+    saveLead_(lead);
 
     return jsonResponse({ success: true, message: 'Lead saved successfully.' });
   } catch (error) {
@@ -84,10 +50,35 @@ function doPost(e) {
   }
 }
 
-function getRequestData_(e) {
-  if (!e) return {};
+/**
+ * Select this function from the Apps Script Run menu to test the connection.
+ * It writes one clearly labelled TEST row into the Leads sheet.
+ */
+function testLeadSubmission() {
+  const testPayload = {
+    name: 'Test',
+    surname: 'Lead',
+    number: '082 000 0000',
+    email: 'test@example.com',
+    ownsProperty: 'Yes',
+    wantsToSell: 'No',
+    wantsToBuy: 'Yes',
+    needsInsurance: 'No',
+    needsWill: 'No',
+    communicationConsent: 'Yes',
+    additionalInfo: 'TEST SUBMISSION — created from Apps Script.',
+    source: DEFAULT_SOURCE
+  };
 
-  // Accept either normal form data or a JSON body. The Netlify function sends form data.
+  const output = doPost({
+    postData: { contents: JSON.stringify(testPayload) }
+  });
+
+  Logger.log(output.getContent());
+}
+
+function getRequestData_(e) {
+  // Netlify sends form-urlencoded data. JSON is also accepted for testing.
   if (e.parameter && Object.keys(e.parameter).length) {
     return e.parameter;
   }
@@ -100,7 +91,38 @@ function getRequestData_(e) {
     }
   }
 
-  return {};
+  throw new Error('No form data was received.');
+}
+
+function saveLead_(lead) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+
+  try {
+    const sheet = getOrCreateLeadSheet_();
+    const row = [[
+      new Date(),
+      lead.name,
+      lead.surname,
+      lead.number,
+      lead.email,
+      lead.ownsProperty,
+      lead.wantsToSell,
+      lead.wantsToBuy,
+      lead.needsInsurance,
+      lead.needsWill,
+      lead.communicationConsent,
+      lead.additionalInfo,
+      lead.source
+    ]];
+
+    const nextRow = sheet.getLastRow() + 1;
+    sheet.getRange(nextRow, 1, 1, HEADERS.length).setValues(row);
+    sheet.getRange(nextRow, 1).setNumberFormat('yyyy-mm-dd hh:mm:ss');
+    sheet.getRange(nextRow, 2, 1, HEADERS.length - 1).setNumberFormat('@');
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function getOrCreateLeadSheet_() {
@@ -109,6 +131,9 @@ function getOrCreateLeadSheet_() {
 
   if (!sheet) {
     sheet = spreadsheet.insertSheet(SHEET_NAME);
+  }
+
+  if (sheet.getLastRow() === 0) {
     sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
     sheet.setFrozenRows(1);
     sheet.getRange(1, 1, 1, HEADERS.length)
@@ -134,37 +159,35 @@ function validateAndClean_(data) {
     needsWill: yesNo_(data.needsWill, 'Do you need a will'),
     communicationConsent: yesNo_(data.communicationConsent, 'Consent to communication'),
     additionalInfo: cleanText_(data.additionalInfo || '', 1500),
-    source: 'Marlyn Ferreira Properties website'
+    source: cleanText_(data.source || DEFAULT_SOURCE, 220)
   };
 
   if (lead.name.length < 2) throw new Error('Please provide a valid name.');
   if (lead.surname.length < 2) throw new Error('Please provide a valid surname.');
-  if (!/^[0-9+()\-\s]{7,30}$/.test(lead.number)) {
-    throw new Error('Please provide a valid contact number.');
-  }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) {
-    throw new Error('Please provide a valid email address.');
-  }
+  if (!/^[0-9+()\-\s]{7,30}$/.test(lead.number)) throw new Error('Please provide a valid contact number.');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) throw new Error('Please provide a valid email address.');
 
   return lead;
 }
 
 function yesNo_(value, label) {
-  const clean = String(value || '').trim().toLowerCase();
-  if (clean !== 'yes' && clean !== 'no') {
-    throw new Error(label + ' must be Yes or No.');
-  }
-  return clean === 'yes' ? 'Yes' : 'No';
+  const clean = String(value == null ? '' : value).trim().toLowerCase();
+
+  // Accept standard browser values plus common equivalent values.
+  if (['yes', 'y', 'true', '1'].indexOf(clean) > -1) return 'Yes';
+  if (['no', 'n', 'false', '0'].indexOf(clean) > -1) return 'No';
+
+  throw new Error(label + ' must be Yes or No.');
 }
 
 function cleanText_(value, maxLength) {
-  const clean = String(value || '')
+  const clean = String(value == null ? '' : value)
     .replace(/\u0000/g, '')
     .replace(/\r\n/g, '\n')
     .trim()
     .slice(0, maxLength);
 
-  // Protect Google Sheets from formula injection while keeping the visible value unchanged.
+  // Avoid formula injection when data is written into Google Sheets.
   return /^[=+\-@]/.test(clean) ? "'" + clean : clean;
 }
 

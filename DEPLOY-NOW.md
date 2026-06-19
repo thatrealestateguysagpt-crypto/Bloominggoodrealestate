@@ -1,20 +1,16 @@
-# Deploy now
+# Deployment steps
 
-The Google Sheets receiver is connected to this Apps Script Web App URL:
+1. Create a new GitHub repository, then upload all files in this folder.
+2. In Netlify: **Add new project → Import an existing project → GitHub**.
+3. Select the repository and click **Deploy site**.
+4. Submit a test enquiry. It should create a row in the `Leads` sheet tab with the event-specific source: **Blooming Good Real Estate at the Toyota Legend Ermelo** and both lead contacts: Marko Ferreira + Marlyn Ferreira.
 
-https://script.google.com/macros/s/AKfycbxOVSMBjEzZDCazxDS6FhS_JnI143xZJChbnPQ-nxSxpFvw-e-Va-dPHeIjIbzBdsUS2Q/exec
+This project includes the Apps Script endpoint in the server-side Netlify function fallback, so the old “not configured yet” message will not appear because of a missing environment variable.
 
-## GitHub
 
-1. Create a GitHub repository called .
-2. Upload every file and folder in this project exactly as supplied.
-3. Commit the files to the  branch.
+### Google Sheets endpoint in this version
+The Netlify function has been updated to use this deployed Apps Script Web App URL:
 
-## Netlify
-
-1. Select **Add new project → Import an existing project**.
-2. Choose the GitHub repository.
-3. Netlify will detect  automatically.
-4. Select **Deploy site**.
-
-The form submits to , which Netlify sends to the Google Sheet through your Apps Script web app.
+```text
+https://script.google.com/macros/s/AKfycbyWuLwKLtgogLFs4MgNcugcn5FHe9xdusJ2eZK5_1khg_8cJZ75XZq5JLGG25MNOo1soA/exec
+```

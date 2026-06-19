@@ -1,0 +1,228 @@
+:root {
+  --navy: #172b70;
+  --navy-deep: #0b1a4b;
+  --blue: #129fe4;
+  --blue-soft: #eaf7ff;
+  --ink: #18213c;
+  --muted: #6f7894;
+  --line: #dfe5f0;
+  --white: #ffffff;
+  --danger: #b42318;
+  --success: #16734b;
+  --shadow: 0 24px 80px rgba(8, 28, 82, 0.18);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-width: 320px;
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 10% 15%, rgba(20, 159, 228, 0.26), transparent 27rem),
+    radial-gradient(circle at 90% 84%, rgba(20, 159, 228, 0.14), transparent 24rem),
+    linear-gradient(140deg, #061441 0%, #0e2e73 53%, #142a69 100%);
+  font-family: "DM Sans", Arial, sans-serif;
+}
+
+button, input, textarea { font: inherit; }
+
+.page-shell {
+  display: grid;
+  min-height: 100vh;
+  padding: 36px 20px;
+  place-items: center;
+}
+
+.lead-card {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.82fr) minmax(500px, 1.18fr);
+  width: min(1120px, 100%);
+  min-height: 740px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  border-radius: 22px;
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.brand-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 52px 48px 38px;
+  color: var(--white);
+  background:
+    linear-gradient(180deg, rgba(7, 28, 88, 0.86), rgba(10, 34, 100, 0.98)),
+    linear-gradient(135deg, #0d2673, #148ed6);
+}
+
+.marlyn-logo {
+  display: block;
+  width: min(100%, 410px);
+  height: auto;
+  margin: -18px 0 24px -14px;
+  padding: 10px;
+  border-radius: 10px;
+  background: var(--white);
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--blue);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.brand-panel .eyebrow { color: #7ed5ff; }
+
+h1, h2, p { margin-top: 0; }
+
+h1, h2 { font-family: "Playfair Display", Georgia, serif; }
+
+h1 {
+  max-width: 430px;
+  margin-bottom: 20px;
+  font-size: clamp(2.1rem, 4vw, 3.4rem);
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+.intro {
+  max-width: 420px;
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.service-list { display: grid; gap: 18px; margin: 45px 0; }
+
+.service-item { display: flex; gap: 14px; align-items: flex-start; }
+
+.service-icon {
+  display: grid;
+  flex: 0 0 37px;
+  width: 37px;
+  height: 37px;
+  border: 1px solid rgba(255,255,255,0.34);
+  border-radius: 50%;
+  color: #7ed5ff;
+  font-size: 1.2rem;
+  place-items: center;
+}
+
+.service-item strong, .service-item span { display: block; }
+.service-item strong { margin: 2px 0 5px; font-size: 0.92rem; }
+.service-item span:not(.service-icon) { color: rgba(255,255,255,.76); font-size: .82rem; line-height: 1.45; }
+
+.powered-by {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.powered-by span { color: rgba(255,255,255,.68); font-size: .75rem; }
+.powered-by img { width: 114px; height: auto; padding: 2px 8px; border-radius: 4px; background: #fff; }
+
+.form-panel { padding: 52px 56px; background: #fff; }
+
+.form-panel__header { margin-bottom: 30px; }
+.form-panel__header .eyebrow { margin-bottom: 9px; }
+.form-panel__header h2 { margin-bottom: 8px; color: var(--navy-deep); font-size: clamp(2rem, 3vw, 2.65rem); line-height: 1.15; }
+.form-panel__header p:last-child { margin-bottom: 0; color: var(--muted); line-height: 1.55; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 17px; }
+
+.field { display: grid; gap: 8px; }
+.field > span, legend { color: #253354; font-size: .82rem; font-weight: 700; }
+.field em { color: var(--muted); font-style: normal; font-weight: 500; }
+input, textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  outline: 0;
+  background: #fbfcff;
+  color: var(--ink);
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+input { height: 46px; padding: 0 13px; }
+textarea { min-height: 115px; padding: 13px; resize: vertical; }
+input:focus, textarea:focus { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 4px rgba(18,159,228,.12); }
+
+.question-set { margin: 20px 0 0; padding: 0; border: 0; }
+.question-set legend { margin-bottom: 9px; }
+.choice-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.choice { position: relative; display: inline-flex; }
+.choice input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.choice span {
+  min-width: 84px;
+  padding: 10px 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fbfcff;
+  color: #53617f;
+  cursor: pointer;
+  font-size: .85rem;
+  font-weight: 700;
+  text-align: center;
+  transition: all .18s ease;
+}
+.choice input:checked + span { border-color: var(--navy); background: var(--navy); color: var(--white); }
+.choice input:focus-visible + span { outline: 3px solid rgba(18,159,228,.34); outline-offset: 2px; }
+
+.consent-set { margin-top: 24px; padding: 18px; border: 1px solid #cfeafa; border-radius: 12px; background: var(--blue-soft); }
+.field-note { margin: 10px 0 0; color: #5b6b8d; font-size: .76rem; line-height: 1.45; }
+.full-width { margin-top: 22px; }
+.honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.form-message { min-height: 22px; margin: 16px 0 0; color: var(--danger); font-size: .86rem; font-weight: 600; }
+.form-message.success { color: var(--success); }
+.submit-button, .secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  border: 0;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+.submit-button {
+  width: 100%;
+  min-height: 53px;
+  margin-top: 7px;
+  padding: 0 22px;
+  background: linear-gradient(90deg, var(--navy), #0a54a8);
+  color: var(--white);
+  box-shadow: 0 12px 24px rgba(16, 52, 125, .22);
+}
+.submit-button:hover:not(:disabled), .secondary-button:hover { transform: translateY(-1px); box-shadow: 0 15px 25px rgba(16, 52, 125, .2); }
+.submit-button:disabled { cursor: wait; opacity: .7; }
+.secondary-button { padding: 12px 18px; background: var(--blue-soft); color: var(--navy); }
+
+.success-state { max-width: 400px; padding: 58px 0; text-align: center; }
+.success-mark { display: grid; width: 61px; height: 61px; margin: 0 auto 18px; border-radius: 50%; background: #dff6e8; color: var(--success); font-size: 1.9rem; font-weight: 700; place-items: center; }
+.success-state h2 { margin-bottom: 10px; color: var(--navy-deep); font-size: 2.4rem; }
+.success-state p { margin-bottom: 25px; color: var(--muted); line-height: 1.6; }
+
+@media (max-width: 860px) {
+  .lead-card { grid-template-columns: 1fr; max-width: 620px; }
+  .brand-panel { min-height: auto; padding: 38px 34px 30px; }
+  .marlyn-logo { max-width: 330px; }
+  .service-list { margin: 30px 0; }
+  .form-panel { padding: 38px 34px 44px; }
+}
+
+@media (max-width: 520px) {
+  .page-shell { padding: 0; }
+  .lead-card { border: 0; border-radius: 0; }
+  .brand-panel, .form-panel { padding-left: 23px; padding-right: 23px; }
+  .form-grid { grid-template-columns: 1fr; }
+  h1 { font-size: 2.3rem; }
+  .marlyn-logo { margin-left: -8px; }
+}

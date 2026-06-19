@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Connect with Marlyn Ferreira Properties for buying, selling, insurance and estate-planning enquiries." />
+    <title>Marlyn Ferreira Properties | Enquiry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="lead-card" aria-labelledby="page-title">
+        <aside class="brand-panel">
+          <div class="brand-panel__top">
+            <img class="marlyn-logo" src="assets/marlyn-ferreira-properties.png" alt="Marlyn Ferreira Properties" />
+            <p class="eyebrow">PROPERTY • PROTECTION • PLANNING</p>
+            <h1 id="page-title">Your next move starts with the right conversation.</h1>
+            <p class="intro">
+              Tell us what you need help with and Marlyn Ferreira Properties will guide you through the next step.
+            </p>
+          </div>
+
+          <div class="service-list" aria-label="Services">
+            <div class="service-item">
+              <span class="service-icon" aria-hidden="true">⌂</span>
+              <div>
+                <strong>Buy or sell with confidence</strong>
+                <span>Clear advice, professional marketing and focused support.</span>
+              </div>
+            </div>
+            <div class="service-item">
+              <span class="service-icon" aria-hidden="true">✦</span>
+              <div>
+                <strong>Plan beyond the property</strong>
+                <span>Insurance and will enquiries can be included in one conversation.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="powered-by">
+            <span>Powered by</span>
+            <img src="assets/blue-lily-properties.png" alt="Blue Lily Properties" />
+          </div>
+        </aside>
+
+        <section class="form-panel" aria-labelledby="form-title">
+          <div class="form-panel__header">
+            <p class="eyebrow">ENQUIRY FORM</p>
+            <h2 id="form-title">How can we assist you?</h2>
+            <p>Complete the form below and we will be in touch.</p>
+          </div>
+
+          <form id="lead-form" novalidate>
+            <div class="form-grid">
+              <label class="field">
+                <span>Name</span>
+                <input id="name" name="name" type="text" autocomplete="given-name" minlength="2" maxlength="80" required />
+              </label>
+
+              <label class="field">
+                <span>Surname</span>
+                <input id="surname" name="surname" type="text" autocomplete="family-name" minlength="2" maxlength="80" required />
+              </label>
+
+              <label class="field">
+                <span>Contact number</span>
+                <input id="number" name="number" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" required />
+              </label>
+
+              <label class="field">
+                <span>Email address</span>
+                <input id="email" name="email" type="email" autocomplete="email" maxlength="150" required />
+              </label>
+            </div>
+
+            <fieldset class="question-set">
+              <legend>Do you own a property?</legend>
+              <div class="choice-row">
+                <label class="choice"><input type="radio" name="ownsProperty" value="yes" required /><span>Yes</span></label>
+                <label class="choice"><input type="radio" name="ownsProperty" value="no" /><span>No</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="question-set">
+              <legend>Do you want to sell a property?</legend>
+              <div class="choice-row">
+                <label class="choice"><input type="radio" name="wantsToSell" value="yes" required /><span>Yes</span></label>
+                <label class="choice"><input type="radio" name="wantsToSell" value="no" /><span>No</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="question-set">
+              <legend>Do you want to buy a property?</legend>
+              <div class="choice-row">
+                <label class="choice"><input type="radio" name="wantsToBuy" value="yes" required /><span>Yes</span></label>
+                <label class="choice"><input type="radio" name="wantsToBuy" value="no" /><span>No</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="question-set">
+              <legend>Do you need insurance?</legend>
+              <div class="choice-row">
+                <label class="choice"><input type="radio" name="needsInsurance" value="yes" required /><span>Yes</span></label>
+                <label class="choice"><input type="radio" name="needsInsurance" value="no" /><span>No</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="question-set">
+              <legend>Do you need a will?</legend>
+              <div class="choice-row">
+                <label class="choice"><input type="radio" name="needsWill" value="yes" required /><span>Yes</span></label>
+                <label class="choice"><input type="radio" name="needsWill" value="no" /><span>No</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="question-set consent-set">
+              <legend>I consent to communication from Marlyn Ferreira Properties about this enquiry.</legend>
+              <div class="choice-row">
+                <label class="choice"><input type="radio" name="communicationConsent" value="yes" required /><span>Yes</span></label>
+                <label class="choice"><input type="radio" name="communicationConsent" value="no" /><span>No</span></label>
+              </div>
+              <p class="field-note">Your choice is recorded with this enquiry.</p>
+            </fieldset>
+
+            <label class="field full-width">
+              <span>Additional information <em>(optional)</em></span>
+              <textarea id="additionalInfo" name="additionalInfo" rows="5" maxlength="1500" placeholder="Tell us a little more about what you need."></textarea>
+            </label>
+
+            <label class="honeypot" aria-hidden="true">
+              <span>Website</span>
+              <input type="text" name="website" tabindex="-1" autocomplete="off" />
+            </label>
+
+            <p id="form-message" class="form-message" role="alert" aria-live="polite"></p>
+
+            <button id="submit-button" class="submit-button" type="submit">
+              <span>Send my enquiry</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </form>
+
+          <div id="success-state" class="success-state" hidden aria-live="polite">
+            <div class="success-mark" aria-hidden="true">✓</div>
+            <h2>Thank you.</h2>
+            <p>Your enquiry has been received. Marlyn Ferreira Properties will be in touch soon.</p>
+            <button id="new-enquiry" class="secondary-button" type="button">Submit another enquiry</button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

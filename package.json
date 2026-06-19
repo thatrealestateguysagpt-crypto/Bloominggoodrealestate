@@ -1,0 +1,9 @@
+{
+  "name": "marlyn-ferreira-properties-lead-capture",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lead capture form for Marlyn Ferreira Properties, hosted on Netlify and saved to Google Sheets.",
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,17 @@
+[build]
+  publish = "site"
+  functions = "netlify/functions"
+
+# The Google Apps Script Web App endpoint is already configured for deployment.
+# You can override it later in Netlify Site Configuration → Environment variables.
+[build.environment]
+  GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxOVSMBjEzZDCazxDS6FhS_JnI143xZJChbnPQ-nxSxpFvw-e-Va-dPHeIjIbzBdsUS2Q/exec"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/lead"
+  to = "/.netlify/functions/submit-lead"
+  status = 200
+  force = true
